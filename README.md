@@ -24,7 +24,7 @@ Image annotation can be a tedious task, especially when dealing with intricate d
 To start using this tool, you will need to clone this repository to your local machine.
 
 ```bash
-git clone [https://github.com/padam56/Convex_Hull_Annotator.git]
+git clone https://github.com/padam56/Convex_Hull_Annotator.git
 cd Convex_Hull_Annotator
 ```
 
