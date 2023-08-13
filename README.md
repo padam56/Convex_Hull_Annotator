@@ -30,13 +30,13 @@ cd [Convex_Hull_Annotator]
 
 ## Usage
 
-## 1. Setup
+### Setup
 Ensure you have all the required dependencies installed.
 
-## 2. Directory Structure
+### Directory Structure
 Organize your files according to the recommended directory structure.
 
-## 3. Execute
+### Execute
 Run the script to process and annotate your images:
 
 ```bash
@@ -48,28 +48,29 @@ After processing, convex hull results for each image will be saved in the design
 
 ## Directory Structure
 
-project-name/
-│
-├── your_script_name.py
-│
-├── datasets/
-│   └── images/  # Directory containing the new images
-│       ├── image1.jpg
-│       ├── image2.jpg
-│       └── ...
-│
-├── output_images/  # Directory to save output images
-│   ├── annotated_images/
-│   │   ├── image1_annotated.jpg
-│   │   ├── image2_annotated.jpg
-│   │   └── ...
-│   │
-│   └── convex_hull_data.json
-│
-└── models/
-    └── model-name/
-        └── model_file.h5  # Pre-trained model file
+project-name/  
+│  
+├── convex_hull.py  
+│  
+├── datasets/  
+│   └── images/  # Directory containing the new images  
+│       ├── image1.jpg  
+│       ├── image2.jpg  
+│       └── ...  
+│  
+├── output_images/  # Directory to save output images  
+│   ├── annotated_images/  
+│   │   ├── image1_annotated.jpg  
+│   │   ├── image2_annotated.jpg  
+│   │   └── ...  
+│   │  
+│   └── convex_hull_data.json  
+│  
+└── models/  
+    └── model-name/  
+        └── model_file.h5  # Pre-trained model file  
 
+## Procedures:
 
 ### Step 1: Initial Hand Labeling
 
@@ -96,11 +97,5 @@ project-name/
 - **Cost-Efficient**: Significant reduction in time and labor costs due to semi-automatic processes.
 
 
-
-## License
-
-Provide information about the license here. For instance, under the MIT License. See LICENSE for more information.
-
 ## Acknowledgments
-
 If this code or model is part of a larger research project or is based on a specific paper, be sure to reference it here.
