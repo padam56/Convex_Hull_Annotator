@@ -25,7 +25,7 @@ To start using this tool, you will need to clone this repository to your local m
 
 ```bash
 git clone [https://github.com/padam56/Convex_Hull_Annotator.git]
-cd [Convex_Hull_Annotator]
+cd Convex_Hull_Annotator
 ```
 
 ## Usage:
