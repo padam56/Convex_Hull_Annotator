@@ -4,14 +4,14 @@ Annotate anything with semi-automatic image annotation through convex hull detec
 
 Image annotation can be a tedious task, especially when dealing with intricate details. With this semi-automatic approach using convex hull detection, we aim to simplify the annotation process, ensuring accurate and quick results. By leveraging the power of Convex Hull algorithms and deep learning, this repository provides a solution to extract and annotate objects in images.
 
-## Features
+## Features:
 - **Automatic Model Loading**: Seamlessly load a pre-trained model for predictions.
 - **Batch Image Processing**: Process a directory of images to predict masks efficiently.
 - **Convex Hull Extraction**: Extract and visualize convex hulls from the predicted masks.
 - **JSON Output**: Conveniently save the convex hull coordinates to a JSON file for further applications or review.
 - **Customizable**: Easily adaptable code to fit different model architectures or directory structures.
 
-## Table of Contents
+## Table of Contents:
 
 1. [Installation](#installation)
 2. [Usage](#usage)
@@ -19,7 +19,7 @@ Image annotation can be a tedious task, especially when dealing with intricate d
 4. [Procedures](#procedures)
 5. [Acknowledgments](#acknowledgments)
 
-## Installation
+## Installation:
 
 To start using this tool, you will need to clone this repository to your local machine.
 
@@ -28,7 +28,7 @@ git clone [https://github.com/padam56/Convex_Hull_Annotator.git]
 cd [Convex_Hull_Annotator]
 ```
 
-## Usage
+## Usage:
 
 ### Setup
 Ensure you have all the required dependencies installed.
@@ -46,7 +46,7 @@ python convex_hull.py
 After processing, convex hull results for each image will be saved in the designated output directory, and all convex hull coordinates will be stored in a JSON file.
 
 
-## Directory Structure
+## Directory Structure:
 
 project-name/  
 │  
@@ -89,7 +89,7 @@ project-name/
 2. **Retraining and Enhancement**: Re-train your model with this refined data, iteratively enhancing its performance.
 3. **Progressive Improvement**: As more images are annotated and corrected, the model's accuracy and efficiency improve.
 
-## Benefits
+## Benefits:
 
 - **Speed**: Achieve quicker rough segmentation compared to fully manual methods.
 - **Accuracy**: Ensure high precision with our further refinement techniques.
@@ -97,5 +97,5 @@ project-name/
 - **Cost-Efficient**: Significant reduction in time and labor costs due to semi-automatic processes.
 
 
-## Acknowledgments
+## Acknowledgments:
 If this code or model is part of a larger research project or is based on a specific paper, be sure to reference it here.
