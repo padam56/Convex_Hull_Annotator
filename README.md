@@ -40,6 +40,10 @@ cd Convex_Hull_Annotator
 
 ## Usage:
 
+### Pre-trained Model Requirement:
+
+Before using this tool, ensure you've loaded your pre-trained model. Currently, this tool is optimized for processing "sandboil" images. Other image types might not yield accurate results.
+
 ### Setup
 Ensure you have all the required dependencies installed.
 
