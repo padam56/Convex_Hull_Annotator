@@ -4,6 +4,16 @@ Annotate anything with semi-automatic image annotation through convex hull detec
 
 Image annotation can be a tedious task, especially when dealing with intricate details. With this semi-automatic approach using convex hull detection, we aim to simplify the annotation process, ensuring accurate and quick results. By leveraging the power of Convex Hull algorithms and deep learning, this repository provides a solution to extract and annotate objects in images.
 
+
+## Sample Images:
+
+Below are some example images that have been processed with the semi-automatic image annotation through convex hull detection:
+
+![Image 1](Images/image1.png)
+
+![Image 2](Images/image2.png)
+
+
 ## Features:
 - **Automatic Model Loading**: Seamlessly load a pre-trained model for predictions.
 - **Batch Image Processing**: Process a directory of images to predict masks efficiently.
