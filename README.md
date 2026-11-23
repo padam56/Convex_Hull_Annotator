@@ -1,115 +1,94 @@
-# Image Annotation through Semi-Automatic Convex Hull Detection
+# Convex_Hull_Annotator
 
-Annotate anything with semi-automatic image annotation through convex hull detection.
+Shape-aware probability → annotation. Takes a sigmoid probability map
+from any segmenter, emits a clean binary mask **and** a VIA-format
+polygon JSON. Generalises across compact, elongated, and thin
+curvilinear defects through one auto-routed pipeline.
 
-Image annotation can be a tedious task, especially when dealing with intricate details. With this semi-automatic approach using convex hull detection, we aim to simplify the annotation process, ensuring accurate and quick results. By leveraging the power of Convex Hull algorithms and deep learning, this repository provides a solution to extract and annotate objects in images.
+![routing](Images/routing.png)
 
-
-## Sample Images:
-
-Below are some example images that have been processed with the semi-automatic image annotation through convex hull detection:
-
-![Image 1](Images/image1.png)
-
-![Image 2](Images/image2.png)
-
-
-## Features:
-- **Automatic Model Loading**: Seamlessly load a pre-trained model for predictions.
-- **Batch Image Processing**: Process a directory of images to predict masks efficiently.
-- **Convex Hull Extraction**: Extract and visualize convex hulls from the predicted masks.
-- **JSON Output**: Conveniently save the convex hull coordinates to a JSON file for further applications or review.
-- **Customizable**: Easily adaptable code to fit different model architectures or directory structures.
-
-## Table of Contents:
-
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Directory Structure](#directory-structure)
-4. [Procedures](#procedures)
-5. [Acknowledgments](#acknowledgments)
-
-## Installation:
-
-To start using this tool, you will need to clone this repository to your local machine.
+## Install
 
 ```bash
-git clone https://github.com/padam56/Convex_Hull_Annotator.git
-cd Convex_Hull_Annotator
+pip install -r requirements.txt
 ```
 
-## Usage:
+Python 3.9+. Deps: numpy, scikit-image, opencv-python.
 
-### Pre-trained Model Requirement:
+## Use
 
-Before using this tool, ensure you've loaded your pre-trained model. Currently, this tool is optimized for processing "sandboil" images. Other image types might not yield accurate results.
-
-### Setup
-Ensure you have all the required dependencies installed.
-
-### Directory Structure
-Organize your files according to the recommended directory structure.
-
-### Execute
-Run the script to process and annotate your images:
-
-```bash
-python convex_hull.py
+```python
+from convex_hull import CHA
+result = CHA.from_spec("domain_specs/rutting.json")(prob_map)
+result.raster_mask                       # uint8 (H, W) 0/255
+result.polygons                          # list of polygons + quality scores
+result.write_via_json("out.json", "image_001.png")
 ```
 
-After processing, convex hull results for each image will be saved in the designated output directory, and all convex hull coordinates will be stored in a JSON file.
+`prob_map` is a numpy array of shape `(H, W)` or `(H, W, C)` from any
+framework. End-to-end Keras example:
+[`examples/keras_segmenter_example.py`](examples/keras_segmenter_example.py).
 
+## Pipeline
 
-## Directory Structure:
+1. **threshold** — Otsu by default; alternatives: `li`, `yen`, `mean`, `fixed`
+2. **connected components** — 8-connectivity
+3. **area filter** — reject by *fraction* of image area, `a ∈ [0.001, 0.85]` (default)
+4. **shape-aware cleanup** — routed by form factor `F = perimeter²/(4π·area)`:
 
-project-name/  
-│  
-├── convex_hull.py  
-│  
-├── datasets/  
-│   └── images/  # Directory containing the new images  
-│       ├── image1.jpg  
-│       ├── image2.jpg  
-│       └── ...  
-│  
-├── output_images/  # Directory to save output images  
-│   ├── annotated_images/  
-│   │   ├── image1_annotated.jpg  
-│   │   ├── image2_annotated.jpg  
-│   │   └── ...  
-│   │  
-│   └── convex_hull_data.json  
-│  
-└── models/  
-    └── model-name/  
-        └── model_file.h5  # Pre-trained model file  
+   | F           | policy          | typical defect           |
+   |-------------|-----------------|--------------------------|
+   | `F < 3`     | convex hull     | sand boil, sinkhole, pothole |
+   | `3 ≤ F < 10`| closing         | rutting groove           |
+   | `F ≥ 10`    | skeleton + dilation | crack                  |
 
-## Procedures:
+5. **output** — binary raster + VIA polygons with per-component score, solidity, F
 
-### Step 1: Initial Hand Labeling
+## Config
 
-1. **Start Small**: Begin with a subset of your data. For instance, 100 images.
-2. **Preliminary Model Training**: Train an initial segmentation model on these hand-labeled images to recognize and segment objects, producing a rough segmentation.
+`CHAConfig` (or `domain_specs/*.json`):
 
-### Step 2: Automatic Convex Hull Detection
+| field               | default  | notes                                  |
+|---------------------|----------|----------------------------------------|
+| `threshold_policy`  | `otsu`   | `otsu | li | yen | mean | fixed`      |
+| `min_area_frac`     | `0.001`  | reject smaller components              |
+| `max_area_frac`     | `0.85`   | reject blow-ups                        |
+| `shape_policy`      | `auto`   | or pin to one policy                   |
+| `closing_radius`    | `3`      | px, for elongated defects              |
+| `skeleton_dilate`   | `4`      | px, for cracks                         |
+| `preserve_holes`    | `False`  | keep interior cavities (ring defects)  |
+| `min_quality_score` | `0.0`    | drop low-mean-prob components          |
 
-1. **Rough Segmentation**: Utilize the preliminary model to produce segmentations on a larger dataset.
-2. **Convex Hull Application**: Form boundaries around these segmentations using the convex hull technique.
-3. **Export to JSON**: Save the convex hull coordinates. This output is compatible with the VGG image annotator for further annotation tasks.
+## New defect class
 
-### Step 3: Manual Adjustment with Bezier Curves
+Write a JSON spec; run. No code changes.
 
-1. **Manual Refinement**: Adjust the convex hulls, if needed, using Bezier curves for more intricate boundaries.
-2. **Retraining and Enhancement**: Re-train your model with this refined data, iteratively enhancing its performance.
-3. **Progressive Improvement**: As more images are annotated and corrected, the model's accuracy and efficiency improve.
+```python
+cha = CHA.from_spec("domain_specs/my_class.json")
+```
 
-## Benefits:
+Five canonical specs ship in [`domain_specs/`](domain_specs/).
 
-- **Speed**: Achieve quicker rough segmentation compared to fully manual methods.
-- **Accuracy**: Ensure high precision with our further refinement techniques.
-- **Scalability**: Designed to adapt to projects of various scales.
-- **Cost-Efficient**: Significant reduction in time and labor costs due to semi-automatic processes.
+## Self-test
 
+```
+$ python convex_hull.py
+  sandboil    -> convex_hull   form=1.1   tau=0.455
+  sinkhole    -> convex_hull   form=1.1   tau=0.399
+  rutting     -> closing        form=5.7   tau=0.334
+  crack       -> skeleton       form=17.4  tau=0.200
+```
 
-## Acknowledgments:
-If this code or model is part of a larger research project or is based on a specific paper, be sure to reference it here.
+## Citation
+
+```bibtex
+@misc{thapa_chull_annotator,
+  author       = {Thapa, Padam Jung},
+  title        = {Convex\_Hull\_Annotator: Automated convex-hull mask annotation
+                  from a SandBoilNet probability map},
+  year         = {2023},
+  howpublished = {\url{https://github.com/padam56/Convex_Hull_Annotator}}
+}
+```
+
+[MIT](LICENSE) licensed.

@@ -1,0 +1,10 @@
+{
+    "_comment":          "Cracks are thin curvilinear features. Auto-routing picks 'skeleton' (F >= 10), which preserves the curvature; the convex hull would destroy the geometry by wrapping the crack in a triangle. min_area_frac is small because cracks occupy very few pixels.",
+    "domain":            "crack",
+    "threshold_policy":  "otsu",
+    "min_area_frac":     0.0005,
+    "max_area_frac":     0.30,
+    "shape_policy":      "auto",
+    "skeleton_dilate":   3,
+    "min_quality_score": 0.10
+}

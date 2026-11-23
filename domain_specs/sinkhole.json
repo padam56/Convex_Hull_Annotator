@@ -1,0 +1,9 @@
+{
+    "_comment":          "Sinkholes are compact roughly-circular depressions; same shape class as sand boils. Slightly tighter max_area to reject blow-ups since real sinkholes occupy a smaller fraction of the frame.",
+    "domain":            "sinkhole",
+    "threshold_policy":  "otsu",
+    "min_area_frac":     0.001,
+    "max_area_frac":     0.60,
+    "shape_policy":      "auto",
+    "min_quality_score": 0.10
+}

@@ -1,0 +1,9 @@
+{
+    "_comment":          "Potholes are compact roughly-circular surface depressions; convex-hull policy is appropriate. Slightly higher min_quality_score because pothole segmenters tend to fire weakly on shadowed road regions.",
+    "domain":            "pothole",
+    "threshold_policy":  "otsu",
+    "min_area_frac":     0.001,
+    "max_area_frac":     0.50,
+    "shape_policy":      "auto",
+    "min_quality_score": 0.20
+}

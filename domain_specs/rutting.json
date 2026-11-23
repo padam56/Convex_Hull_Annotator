@@ -1,0 +1,10 @@
+{
+    "_comment":          "Rutting grooves are elongated but solid linear features. Auto-routing picks 'closing' (3 <= F < 10), which preserves the linear geometry rather than wrapping it in a convex hull.",
+    "domain":            "rutting",
+    "threshold_policy":  "otsu",
+    "min_area_frac":     0.002,
+    "max_area_frac":     0.50,
+    "shape_policy":      "auto",
+    "closing_radius":    5,
+    "min_quality_score": 0.15
+}

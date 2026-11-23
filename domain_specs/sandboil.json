@@ -1,0 +1,9 @@
+{
+    "_comment":          "Sand boils are roughly compact dome-shaped defects. Convex-hull policy fills threshold-noise interior holes and produces a single coherent label.",
+    "domain":            "sandboil",
+    "threshold_policy":  "otsu",
+    "min_area_frac":     0.001,
+    "max_area_frac":     0.85,
+    "shape_policy":      "auto",
+    "min_quality_score": 0.0
+}
